@@ -1,0 +1,114 @@
+networks:
+  ticketz:
+
+volumes:
+  postgres_data:
+  redis_data:
+  backend_public:
+  backend_private:
+  n8n_data:
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    volumes:
+      - backend_public:/usr/src/app/public
+      - backend_private:/usr/src/app/private
+    env_file:
+      - .env-backend-local
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    # In dev, não expor a porta do backend diretamente; usar o Nginx do frontend como proxy
+    expose:
+      - 3000
+    networks:
+      - ticketz
+
+  frontend:
+    ports:
+      - ${FRONTEND_PORT:-3000}:80
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env-frontend-local
+    volumes:
+      - backend_public:/var/www/backend-public
+    restart: always
+    depends_on:
+      - backend
+    networks:
+      - ticketz
+
+  postgres:
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-ticketz}
+      - POSTGRES_DB=${POSTGRES_DB:-ticketz}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - TZ=${TZ:-America/Sao_Paulo}
+    expose:
+      - 5432
+    restart: always
+    networks:
+      - ticketz
+
+  redis:
+    image: redis:alpine
+    command: redis-server --appendonly yes
+    expose:
+      - 6379
+    restart: always
+    volumes:
+      - redis_data:/data
+    networks:
+      - ticketz
+
+  sidekick:
+    image: ghcr.io/ticketz-oss/ticketz-sidekick:latest
+    profiles: ["do-not-start"]
+    env_file:
+      - .env-backend-local
+    restart: unless-stopped
+    volumes:
+      - backend_public:/backend-public
+      - backend_private:/backend-private
+      - ./backups:/backups
+      - ./retrieve:/retrieve
+    depends_on:
+      - postgres
+    networks:
+      - ticketz
+
+  n8n:
+    image: n8nio/n8n:latest
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin123
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - N8N_WEBHOOK_URL=http://localhost:5678/
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=${POSTGRES_USER:-ticketz}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD:-ticketz}
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - ticketz

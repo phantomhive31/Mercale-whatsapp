@@ -1,0 +1,120 @@
+{
+  "enabled": true,
+  "welcomeMessage": "Olá! Bem-vindo ao nosso atendimento. Como posso ajudá-lo hoje?",
+  "fallbackMessage": "Desculpe, não consegui entender sua pergunta. Vou transferir você para um de nossos atendentes que poderá ajudá-lo melhor.",
+  "transferMessage": "Transferindo você para um de nossos atendentes especializados. Aguarde um momento, por favor.",
+  "maxAttempts": 3,
+  "keywords": {
+    "preço": {
+      "response": "Para informações detalhadas sobre preços e condições especiais, vou transferir você para nosso departamento comercial que poderá oferecer a melhor proposta para você.",
+      "confidence": 0.8,
+      "transferToHuman": true
+    },
+    "valor": {
+      "response": "Para informações detalhadas sobre preços e condições especiais, vou transferir você para nosso departamento comercial que poderá oferecer a melhor proposta para você.",
+      "confidence": 0.8,
+      "transferToHuman": true
+    },
+    "custo": {
+      "response": "Para informações detalhadas sobre preços e condições especiais, vou transferir você para nosso departamento comercial que poderá oferecer a melhor proposta para você.",
+      "confidence": 0.8,
+      "transferToHuman": true
+    },
+    "quanto custa": {
+      "response": "Para informações detalhadas sobre preços e condições especiais, vou transferir você para nosso departamento comercial que poderá oferecer a melhor proposta para você.",
+      "confidence": 0.9,
+      "transferToHuman": true
+    },
+    "suporte": {
+      "response": "Entendo que você precisa de suporte técnico. Vou transferir você para nossa equipe especializada que poderá resolver sua questão rapidamente.",
+      "confidence": 0.7,
+      "transferToHuman": true
+    },
+    "problema": {
+      "response": "Entendo que você está enfrentando um problema. Vou transferir você para nossa equipe de suporte técnico que poderá ajudá-lo a resolver isso.",
+      "confidence": 0.7,
+      "transferToHuman": true
+    },
+    "erro": {
+      "response": "Entendo que você encontrou um erro. Vou transferir você para nossa equipe de suporte técnico que poderá ajudá-lo a resolver isso.",
+      "confidence": 0.7,
+      "transferToHuman": true
+    },
+    "bug": {
+      "response": "Entendo que você encontrou um bug. Vou transferir você para nossa equipe de suporte técnico que poderá ajudá-lo a resolver isso.",
+      "confidence": 0.7,
+      "transferToHuman": true
+    },
+    "não funciona": {
+      "response": "Entendo que algo não está funcionando como esperado. Vou transferir você para nossa equipe de suporte técnico que poderá ajudá-lo a resolver isso.",
+      "confidence": 0.7,
+      "transferToHuman": true
+    },
+    "horário": {
+      "response": "Nosso horário de atendimento é de segunda a sexta, das 8h às 18h, e aos sábados das 8h às 12h. Fora deste horário, você pode deixar sua mensagem que responderemos assim que possível.",
+      "confidence": 0.9,
+      "transferToHuman": false
+    },
+    "funcionamento": {
+      "response": "Nosso horário de atendimento é de segunda a sexta, das 8h às 18h, e aos sábados das 8h às 12h. Fora deste horário, você pode deixar sua mensagem que responderemos assim que possível.",
+      "confidence": 0.8,
+      "transferToHuman": false
+    },
+    "atendimento": {
+      "response": "Nosso horário de atendimento é de segunda a sexta, das 8h às 18h, e aos sábados das 8h às 12h. Fora deste horário, você pode deixar sua mensagem que responderemos assim que possível.",
+      "confidence": 0.8,
+      "transferToHuman": false
+    },
+    "contato": {
+      "response": "Você pode nos contatar através do WhatsApp, telefone (11) 99999-9999, ou email contato@empresa.com.br. Nosso horário de atendimento é de segunda a sexta, das 8h às 18h.",
+      "confidence": 0.8,
+      "transferToHuman": false
+    },
+    "telefone": {
+      "response": "Nosso telefone de contato é (11) 99999-9999. O horário de atendimento é de segunda a sexta, das 8h às 18h, e aos sábados das 8h às 12h.",
+      "confidence": 0.8,
+      "transferToHuman": false
+    },
+    "email": {
+      "response": "Nosso email de contato é contato@empresa.com.br. Respondemos em até 24 horas durante dias úteis.",
+      "confidence": 0.8,
+      "transferToHuman": false
+    },
+    "endereço": {
+      "response": "Nosso endereço é Rua Exemplo, 123 - Centro, São Paulo - SP, CEP 01234-567. Estamos abertos de segunda a sexta, das 8h às 18h.",
+      "confidence": 0.8,
+      "transferToHuman": false
+    },
+    "localização": {
+      "response": "Estamos localizados na Rua Exemplo, 123 - Centro, São Paulo - SP, CEP 01234-567. Nosso horário de funcionamento é de segunda a sexta, das 8h às 18h.",
+      "confidence": 0.8,
+      "transferToHuman": false
+    },
+    "garantia": {
+      "response": "Todos os nossos produtos possuem garantia de 12 meses contra defeitos de fabricação. Para questões sobre garantia, vou transferir você para nosso departamento de pós-vendas.",
+      "confidence": 0.8,
+      "transferToHuman": true
+    },
+    "devolução": {
+      "response": "Para questões sobre devolução e troca, vou transferir você para nosso departamento de pós-vendas que poderá orientá-lo sobre nossa política de devolução.",
+      "confidence": 0.8,
+      "transferToHuman": true
+    },
+    "troca": {
+      "response": "Para questões sobre troca de produtos, vou transferir você para nosso departamento de pós-vendas que poderá orientá-lo sobre nossa política de troca.",
+      "confidence": 0.8,
+      "transferToHuman": true
+    },
+    "entrega": {
+      "response": "Para informações sobre entrega, prazo e frete, vou transferir você para nosso departamento de logística que poderá informar sobre disponibilidade e custos.",
+      "confidence": 0.8,
+      "transferToHuman": true
+    },
+    "frete": {
+      "response": "Para informações sobre frete e condições de entrega, vou transferir você para nosso departamento de logística que poderá calcular o melhor custo-benefício para você.",
+      "confidence": 0.8,
+      "transferToHuman": true
+    }
+  }
+}
+
