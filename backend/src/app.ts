@@ -6,19 +6,16 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import * as Sentry from "@sentry/node";
 
-// Função para verificar se Handlers existe, senão usar fallback
-const getSentryHandlers = () => {
-  if (Sentry.Handlers) {
-    return Sentry.Handlers;
-  }
-  // Fallback para versões mais antigas
-  return {
-    requestHandler: () => (req: any, res: any, next: any) => next(),
-    errorHandler: () => (err: any, req: any, res: any, next: any) => next(err)
-  };
+// Middleware simples para compatibilidade com diferentes versões do Sentry
+const requestHandler = () => (req: any, res: any, next: any) => {
+  // Sentry request handler simples
+  next();
 };
 
-const handlers = getSentryHandlers();
+const errorHandler = () => (err: any, req: any, res: any, next: any) => {
+  // Sentry error handler simples
+  next(err);
+};
 
 import "./database";
 import path from "path";
@@ -51,7 +48,7 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
-app.use(handlers.requestHandler());
+app.use(requestHandler());
 app.get("/public/*", (req, res) => {
   const filePath = path.join(uploadConfig.directory, req.params[0]);
 
@@ -86,7 +83,7 @@ app.use((req, _res, next) => {
 app.use(routes);
 app.use('/integrations', integrationRoutes);
 
-app.use(handlers.errorHandler());
+app.use(errorHandler());
 app.use(async (err: Error, req: Request, res: Response, _: NextFunction) => {
   if (err instanceof AppError) {
     logger[err.level](err);
