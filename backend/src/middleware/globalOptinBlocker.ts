@@ -86,3 +86,4 @@ export class GlobalOptinBlocker {
 }
 
 export const globalOptinBlocker = GlobalOptinBlocker.getInstance();
+

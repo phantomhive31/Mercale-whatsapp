@@ -43,3 +43,4 @@ export function blockOptinMessages(messageBody: string): boolean {
 export function getBlockedMessage(): string {
   return 'Mensagem de opt-in bloqueada - funcionalidade desativada';
 }
+

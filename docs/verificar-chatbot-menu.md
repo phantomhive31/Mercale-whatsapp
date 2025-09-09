@@ -132,3 +132,4 @@ Se ainda tiver problemas:
 2. Verifique os logs do backend
 3. Entre em contato com o suporte técnico
 
+

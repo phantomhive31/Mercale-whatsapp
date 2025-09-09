@@ -116,3 +116,4 @@ npm install
 
 **A versão offline já está funcionando! Para funcionalidade completa, inicie o backend.** 🚀
 
+
