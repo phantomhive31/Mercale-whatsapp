@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import ChatbotService from "../services/ChatbotService/ChatbotService";
-import { isAdmin } from "../middleware/isAdmin";
-import { AppError } from "../errors/AppError";
+import isAdmin from "../middleware/isAdmin";
+import AppError from "../errors/AppError";
 
 interface ChatbotConfigRequest extends Request {
   body: {
@@ -18,7 +18,10 @@ interface ChatbotConfigRequest extends Request {
       };
     };
   };
-  user?: {
+  user: {
+    id: string;
+    profile: string;
+    isSuper: boolean;
     companyId: number;
   };
 }

@@ -4,7 +4,7 @@ import Contact from "../../models/Contact";
 import Message from "../../models/Message";
 import Setting from "../../models/Setting";
 import Company from "../../models/Company";
-import { SendWhatsAppMessage } from "../WbotServices/SendWhatsAppMessage";
+import SendWhatsAppMessage from "../WbotServices/SendWhatsAppMessage";
 import { formatBody } from "../../helpers/Mustache";
 
 interface ChatbotResponse {
@@ -142,7 +142,7 @@ export class ChatbotService {
   /**
    * Obtém configuração do chatbot para a empresa
    */
-  private async getChatbotConfig(companyId: number): Promise<ChatbotConfig> {
+  public async getChatbotConfig(companyId: number): Promise<ChatbotConfig> {
     const settings = await Setting.findAll({
       where: {
         companyId,
@@ -192,12 +192,12 @@ export class ChatbotService {
     message: string,
     config: ChatbotConfig
   ): { response: string; confidence: number; transferToHuman?: boolean } | null {
-    for (const [keyword, config] of Object.entries(config.keywords)) {
+    for (const [keyword, keywordConfig] of Object.entries(config.keywords)) {
       if (message.includes(keyword.toLowerCase())) {
         return {
-          response: config.response,
-          confidence: config.confidence,
-          transferToHuman: config.transferToHuman
+          response: keywordConfig.response,
+          confidence: keywordConfig.confidence,
+          transferToHuman: keywordConfig.transferToHuman
         };
       }
     }

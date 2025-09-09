@@ -1,11 +1,11 @@
-import { QueryInterface, DataTypes } from "sequelize";
+import { QueryInterface, DataTypes, QueryTypes } from "sequelize";
 
 module.exports = {
   up: async (queryInterface: QueryInterface) => {
     // Adicionar configuração priceBotEnabled para todas as empresas existentes
     const companies = await queryInterface.sequelize.query(
       'SELECT id FROM "Companies"',
-      { type: queryInterface.sequelize.QueryTypes.SELECT }
+      { type: QueryTypes.SELECT }
     );
 
     for (const company of companies as any[]) {
