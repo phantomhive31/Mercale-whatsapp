@@ -38,7 +38,6 @@ import { copyToClipboard } from "../../helpers/copyToClipboard.js";
 import api from "../../services/api.js";
 import { SocketContext } from "../../context/Socket/SocketContext.js";
 import { formatTimeInterval } from "../../helpers/formatTimeInterval.js";
-import ChatbotQuickAccess from "../../components/ChatbotQuickAccess";
 
 const gitinfo = loadJSON('/gitinfo.json');
 
@@ -570,11 +569,6 @@ const Dashboard = () => {
             value={formatTimeInterval(ticketsData.ticketStatistics?.avgWaitTime)}
             icon={<HourglassEmptyIcon style={{ fontSize: 100 }} />}
           />
-
-          {/* CHATBOT QUICK ACCESS */}
-          <Grid item xs={12} md={4}>
-            <ChatbotQuickAccess />
-          </Grid>
 
           {/* DASHBOARD ATENDIMENTOS NO PERÍODO */}
           <Grid item xs={12}>

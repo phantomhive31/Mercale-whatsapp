@@ -26,21 +26,12 @@ export const GetSettingService = async ({
     throw new AppError("ERR_NO_PERMISSION", 403);
   }
 
-  let setting = await Setting.findOne({
+  const setting = await Setting.findOne({
     where: {
       companyId: user.companyId,
       key
     }
   });
-
-  // Criar configuração priceBotEnabled automaticamente se não existir
-  if (!setting && key === "priceBotEnabled") {
-    setting = await Setting.create({
-      companyId: user.companyId,
-      key: "priceBotEnabled",
-      value: "disabled"
-    });
-  }
 
   if (!setting && key in safeSettingsKeys) {
     return safeSettingsKeys[key];

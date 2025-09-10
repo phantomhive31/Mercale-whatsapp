@@ -932,13 +932,6 @@ const messages = {
         AudioTranscriptions: {
           title: "Audio Transcriptions",
         },
-        PriceBot: {
-          title: "Price Bot",
-          options: {
-            enabled: "Enabled",
-            disabled: "Disabled"
-          },
-        },
         TagsMode: {
           title: "Tags Mode",
           options: {

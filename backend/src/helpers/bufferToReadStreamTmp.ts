@@ -28,7 +28,7 @@ export function bufferToReadStreamTmp(
   stream.on("close", () => {
     fs.unlink(tempFilePath, err => {
       if (err) {
-        logger.error({ error: err }, "Error deleting temporary file");
+        logger.error("Error deleting temporary file", err);
       }
     });
   });

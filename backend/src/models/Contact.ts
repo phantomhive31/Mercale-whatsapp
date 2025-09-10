@@ -63,20 +63,6 @@ class Contact extends Model {
   @Column
   presence: string;
 
-  @Default(false)
-  @Column
-  optinConfirmed: boolean;
-
-  @Column
-  optinConfirmedAt: Date;
-
-  @Default(false)
-  @Column
-  optinMessageSent: boolean;
-
-  @Column
-  optinMessageSentAt: Date;
-
   @Column
   language: string;
 

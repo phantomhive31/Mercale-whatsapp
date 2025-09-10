@@ -6,23 +6,11 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import * as Sentry from "@sentry/node";
 
-// Middleware simples para compatibilidade com diferentes versões do Sentry
-const requestHandler = () => (req: any, res: any, next: any) => {
-  // Sentry request handler simples
-  next();
-};
-
-const errorHandler = () => (err: any, req: any, res: any, next: any) => {
-  // Sentry error handler simples
-  next(err);
-};
-
 import "./database";
 import path from "path";
 import uploadConfig from "./config/upload";
 import AppError from "./errors/AppError";
 import routes from "./routes";
-import integrationRoutes from "./routes/integrationRoutes";
 import { logger } from "./utils/logger";
 import { messageQueue, sendScheduledMessages } from "./queues";
 
@@ -48,7 +36,7 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
-app.use(requestHandler());
+app.use(Sentry.Handlers.requestHandler());
 app.get("/public/*", (req, res) => {
   const filePath = path.join(uploadConfig.directory, req.params[0]);
 
@@ -81,9 +69,8 @@ app.use((req, _res, next) => {
 });
 
 app.use(routes);
-app.use('/integrations', integrationRoutes);
 
-app.use(errorHandler());
+app.use(Sentry.Handlers.errorHandler());
 app.use(async (err: Error, req: Request, res: Response, _: NextFunction) => {
   if (err instanceof AppError) {
     logger[err.level](err);

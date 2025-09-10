@@ -7,8 +7,6 @@ import { getIO } from "../../libs/socket";
 import FindOrCreateATicketTrakingService from "./FindOrCreateATicketTrakingService";
 import Contact from "../../models/Contact";
 import { incrementCounter } from "../CounterServices/IncrementCounter";
-import { WebhookService } from "../webhookService";
-import { OptinService } from "../OptinService";
 
 interface Request {
   contactId: number;
@@ -72,35 +70,6 @@ const CreateTicketService = async ({
     action: "update",
     ticket
   });
-
-  // Enviar webhook para n8n
-  try {
-    await WebhookService.getInstance().ticketCreated(ticket);
-  } catch (error) {
-    console.error('Error sending webhook for ticket creation:', error);
-  }
-
-  // DESATIVADO TEMPORARIAMENTE - Enviar mensagem de opt-in se for o primeiro contato e ainda não foi enviada
-  // try {
-  //   console.log('=== OPT-IN DEBUG ===');
-  //   console.log('Ticket contact:', ticket.contact ? 'exists' : 'null');
-  //   if (ticket.contact) {
-  //     console.log('Contact optinMessageSent:', ticket.contact.optinMessageSent);
-  //     console.log('Contact ID:', ticket.contact.id);
-  //     console.log('Contact name:', ticket.contact.name);
-  //   }
-  //   
-  //   const contact = ticket.contact;
-  //   if (contact && !contact.optinMessageSent) {
-  //     console.log('Sending opt-in message for contact:', contact.id);
-  //     await OptinService.getInstance().sendOptinMessage(contact, ticket);
-  //   } else {
-  //     console.log('Opt-in message not sent - conditions not met');
-  //   }
-  //   console.log('=== END OPT-IN DEBUG ===');
-  // } catch (error) {
-  //   console.error('Error sending opt-in message:', error);
-  // }
 
   return ticket;
 };

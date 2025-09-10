@@ -148,19 +148,6 @@ const CreateCompanyService = async (
     }
   });
 
-  // priceBotEnabled
-  await Setting.findOrCreate({
-    where: {
-      companyId: company.id,
-      key: "priceBotEnabled"
-    },
-    defaults: {
-      companyId: company.id,
-      key: "priceBotEnabled",
-      value: "disabled"
-    }
-  });
-
   if (companyData.campaignsEnabled !== undefined) {
     const [setting, settingCreated] = await Setting.findOrCreate({
       where: {

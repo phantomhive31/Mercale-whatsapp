@@ -1,7 +1,6 @@
 import AppError from "../../errors/AppError";
 import Contact from "../../models/Contact";
 import ContactCustomField from "../../models/ContactCustomField";
-import { WebhookService } from "../webhookService";
 
 interface ExtraInfo extends ContactCustomField {
   name: string;
@@ -54,13 +53,6 @@ const CreateContactService = async ({
   await contact.reload({
     include: ["tags", "extraInfo"]
   });
-
-  // Enviar webhook para n8n
-  try {
-    await WebhookService.getInstance().contactCreated(contact);
-  } catch (error) {
-    console.error('Error sending webhook for contact creation:', error);
-  }
 
   return contact;
 };

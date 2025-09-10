@@ -21,17 +21,6 @@ const ListSettingsService = async ({
     where
   });
 
-  // Garantir que a configuração priceBotEnabled existe
-  const priceBotSetting = settings.find(s => s.key === 'priceBotEnabled');
-  if (!priceBotSetting) {
-    const newPriceBotSetting = await Setting.create({
-      companyId,
-      key: 'priceBotEnabled',
-      value: 'disabled'
-    });
-    settings.push(newPriceBotSetting);
-  }
-
   return settings;
 };
 

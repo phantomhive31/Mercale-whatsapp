@@ -1,15 +1,12 @@
 const rules = {
 	user: {
-		static: [
-			"drawer-service-items:view"
-		],
+		static: [],
 	},
 
 	admin: {
 		static: [
 			//"dashboard:view",
 			"drawer-admin-items:view",
-			"drawer-service-items:view",
 			"tickets-manager:showall",
 			"user-modal:editProfile",
 			"user-modal:editQueues",

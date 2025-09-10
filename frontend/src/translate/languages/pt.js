@@ -940,13 +940,6 @@ const messages = {
         },
         AudioTranscriptions: {
           title: "Transcrição de áudio",
-        },
-        PriceBot: {
-          title: "Bot de Preços",
-          options: {
-            enabled: "Ativado",
-            disabled: "Desativado"
-          },
         },        
         TagsMode: {
           title: "Modo de Tags",

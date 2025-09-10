@@ -10,7 +10,6 @@ import sequelize from "../../database";
 import Whatsapp from "../../models/Whatsapp";
 import Queue from "../../models/Queue";
 import { incrementCounter } from "../CounterServices/IncrementCounter";
-import { OptinService } from "../OptinService";
 
 const createTicketMutex = new Mutex();
 
@@ -160,24 +159,11 @@ const internalFindOrCreateTicketService = async (
     return { ticket, justCreated };
   });
 
-      if (result.justCreated) {
-      incrementCounter(companyId, "ticket-create");
-      
-      // DESATIVADO TEMPORARIAMENTE - Enviar mensagem de opt-in se for o primeiro contato e ainda não foi enviada
-      // try {
-      //   const contact = result.ticket.contact;
-      //   if (contact && !contact.optinMessageSent) {
-      //     console.log('=== OPT-IN AUTO DEBUG ===');
-      //     console.log('Auto-sending opt-in message for contact:', contact.id);
-      //     await OptinService.getInstance().sendOptinMessage(contact, result.ticket);
-      //     console.log('=== END OPT-IN AUTO DEBUG ===');
-      //   }
-      // } catch (error) {
-      //   console.error('Error auto-sending opt-in message:', error);
-      // }
-    }
+  if (result.justCreated) {
+    incrementCounter(companyId, "ticket-create");
+  }
 
-    return result;
+  return result;
 };
 
 const FindOrCreateTicketService = async (

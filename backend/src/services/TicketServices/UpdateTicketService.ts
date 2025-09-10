@@ -17,7 +17,6 @@ import { incrementCounter } from "../CounterServices/IncrementCounter";
 import { getJidOf } from "../WbotServices/getJidOf";
 import Queue from "../../models/Queue";
 import { _t } from "../TranslationServices/i18nService";
-import { WebhookService } from "../webhookService";
 
 export interface UpdateTicketData {
   status?: string;
@@ -410,13 +409,6 @@ const UpdateTicketService = async ({
     }
 
     websocketUpdateTicket(ticket, [`user-${oldUserId}`]);
-
-    // Enviar webhook para n8n
-    try {
-      await WebhookService.getInstance().ticketUpdated(ticket);
-    } catch (error) {
-      console.error('Error sending webhook for ticket update:', error);
-    }
 
     return { ticket, oldStatus, oldUserId };
   } catch (err) {

@@ -77,7 +77,7 @@ export const transcriber = async (
     if (audioInput.startsWith("http")) {
       const response = await fetch(audioInput);
       if (!response.ok) {
-        logger.error({ error: response.statusText }, "Failed to fetch audio file");
+        logger.error("Failed to fetch audio file", response.statusText);
         return null;
       }
       audio = response;

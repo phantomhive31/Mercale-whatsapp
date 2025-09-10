@@ -99,8 +99,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Options(props) {
   const { settings, scheduleTypeChanged } = props;
   const classes = useStyles();
-  
-  console.log("Options component loaded with settings:", settings);
   const [userRating, setUserRating] = useState("disabled");
   const [scheduleType, setScheduleType] = useState("disabled");
   const [outOfHoursAction, setOutOfHoursAction] = useState("pending");
@@ -117,7 +115,6 @@ export default function Options(props) {
   const [openAiKey, setOpenAiKey] = useState("");
   const [aiProvider, setAiProvider] = useState("openai");
   const [audioTranscriptions, setAudioTranscriptions] = useState("disabled");
-  const [priceBotEnabled, setPriceBotEnabled] = useState("disabled");
   const [uploadLimit, setUploadLimit] = useState("15");
   const [downloadLimit, setDownloadLimit] = useState("15");
 
@@ -223,9 +220,6 @@ export default function Options(props) {
       
       const audioTranscriptions = settings.find((s) => s.key === "audioTranscriptions");
       setAudioTranscriptions(audioTranscriptions?.value || "disabled");
-
-      const priceBotEnabled = settings.find((s) => s.key === "priceBotEnabled");
-      setPriceBotEnabled(priceBotEnabled?.value || "disabled");
 
       const uploadLimit = settings.find((s) => s.key === "uploadLimit");
       setUploadLimit(uploadLimit?.value || "");
@@ -424,30 +418,7 @@ export default function Options(props) {
           <h2 className={classes.groupTitle}>{i18n.t("settings.group.general")}</h2>
         </Grid>
 
-        {/* Bot de Preços - Temporariamente desativado */}
-        {/* 
-        <Grid item xs={12} sm={6} md={4}>
-          <FormControl className={classes.selectContainer} style={{ backgroundColor: '#f5f5f5', padding: '8px', borderRadius: '4px' }}>
-            <InputLabel id="price-bot-main-label" style={{ fontWeight: 'bold', color: '#2196f3' }}>
-              🤖 Bot de Preços Automático
-            </InputLabel>
-            <Select
-              labelId="price-bot-main-label"
-              value={priceBotEnabled}
-              onChange={async (e) => {
-                console.log("🤖 Bot de Preços alterado para:", e.target.value);
-                handleSetting("priceBotEnabled", e.target.value, setPriceBotEnabled);
-              }}
-              style={{ fontWeight: 'bold' }}
-            >
-              <MenuItem value="disabled">❌ Desativado</MenuItem>
-              <MenuItem value="enabled">✅ Ativado</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        */}
-
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="ratings-label">{i18n.t("settings.validations.title")}</InputLabel>
             <Select
@@ -463,7 +434,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="call-type-label">
             {i18n.t("settings.VoiceAndVideoCalls.title")}
@@ -481,7 +452,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="group-type-label">
             {i18n.t("settings.AutomaticChatbotOutput.title")}
@@ -499,7 +470,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="quickmessages-label">
             {i18n.t("settings.QuickMessages.title")}
@@ -517,7 +488,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
         
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="tags-mode-label">
               {i18n.t("settings.TagsMode.title")}
@@ -536,7 +507,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="shownumericicons-label">
             {i18n.t("settings.ShowNumericEmoticons.title")}
@@ -554,9 +525,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-
-
-        <Grid item xs={12} sm={12} md={6}>
+        <Grid xs={12} sm={12} md={6} item>
           <FormControl className={classes.selectContainer}>
             <TextField
               id="ticket-accepted-message-field"
@@ -577,7 +546,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6}>
+        <Grid xs={12} sm={12} md={6} item>
           <FormControl className={classes.selectContainer}>
             <TextField
               id="transfer-message-field"
@@ -601,7 +570,7 @@ export default function Options(props) {
         <Grid item xs={12}>
           <h2 className={classes.groupTitle}>{i18n.t("settings.group.timeouts")}</h2>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <TextField
               id="ratings-timeout-field"
@@ -620,7 +589,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <TextField
               id="autoreopen-timeout-field"
@@ -639,7 +608,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <TextField
               id="noqueue-timeout-field"
@@ -658,7 +627,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="noqueue-timeout-action-label">
               Ação para timeout de ticket sem fila
@@ -681,7 +650,7 @@ export default function Options(props) {
         </Grid>
 
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <TextField
               id="openticket-timeout-field"
@@ -700,7 +669,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="opentimeout-action-label">
               Ação para timeout de ticket aberto
@@ -718,7 +687,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <TextField
               id="chatbot-timeout-field"
@@ -737,7 +706,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="chatbot-ticket-timeout-action-label">
               {i18n.t("settings.chatbotTicketTimeoutAction")}
@@ -762,7 +731,7 @@ export default function Options(props) {
         <Grid item xs={12}>
           <h2 className={classes.groupTitle}>{i18n.t("settings.group.officeHours")}</h2>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="schedule-type-label">
             {i18n.t("settings.OfficeManagement.title")}
@@ -781,7 +750,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="out-of-hours-action-label">
               {i18n.t("settings.outOfHoursAction.title")}
@@ -802,7 +771,7 @@ export default function Options(props) {
         <Grid item xs={12}>
           <h2 className={classes.groupTitle}>{i18n.t("settings.group.groups")}</h2>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="group-type-label">
             {i18n.t("settings.IgnoreGroupMessages.title")}
@@ -820,7 +789,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
         
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="sound-group-notifications-label">
               {i18n.t("settings.soundGroupNotifications.title")}
@@ -838,7 +807,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="groups-tab-label">
               {i18n.t("settings.groupsTab.title")}
@@ -861,7 +830,7 @@ export default function Options(props) {
           <h2 className={classes.groupTitle}>{i18n.t("settings.group.confidenciality")}</h2>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="message-visibility-label">
               {i18n.t("settings.messageVisibility.title")}
@@ -879,7 +848,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
         
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="keep-queue-and-user-label">
               {i18n.t("settings.keepQueueAndUser.title")}
@@ -901,7 +870,7 @@ export default function Options(props) {
           <h2 className={classes.groupTitle}>{i18n.t("settings.group.api")}</h2>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <TextField
               id="primary-color-light-field"
@@ -959,7 +928,7 @@ export default function Options(props) {
           <h2 className={classes.groupTitle}>{i18n.t("settings.group.externalServices")}</h2>
         </Grid>
         
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="ai-provider-label">
               {i18n.t("settings.AIProvider.title")}
@@ -977,7 +946,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
         
-        <Grid item xs={12} sm={12} md={8}>
+        <Grid xs={12} sm={12} md={8} item>
           <FormControl className={classes.selectContainer}>
             <TextField
               id="openai-key-field"
@@ -994,7 +963,7 @@ export default function Options(props) {
           </FormControl>
         </Grid>
         
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="audio-transcriptions-label">
               {i18n.t("settings.AudioTranscriptions.title")}
@@ -1020,7 +989,7 @@ export default function Options(props) {
                 <h2 className={classes.groupTitle}>{i18n.t("settings.group.serveradmin")}</h2>
               </Grid>
               
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid xs={12} sm={6} md={4} item>
                 <SelectLanguage
                   className={classes.selectContainer}
                   fullWidth
@@ -1031,7 +1000,7 @@ export default function Options(props) {
                 />
               </Grid>
                     
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid xs={12} sm={6} md={4} item>
                 <FormControl className={classes.selectContainer}>
                   <InputLabel id="group-type-label">
                   {i18n.t("settings.AllowRegistration.title")}
@@ -1049,7 +1018,7 @@ export default function Options(props) {
                 </FormControl>
               </Grid>
               
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid xs={12} sm={6} md={4} item>
                 <FormControl className={classes.selectContainer}>
                   <TextField
                     id="upload-limit-field"
@@ -1067,7 +1036,7 @@ export default function Options(props) {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid xs={12} sm={6} md={4} item>
                 <FormControl className={classes.selectContainer}>
                   <TextField
                     id="appname-field"
@@ -1086,7 +1055,7 @@ export default function Options(props) {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid xs={12} sm={6} md={4} item>
                 <FormControl className={classes.selectContainer}>
                   <TextField
                     id="grace-period-field"

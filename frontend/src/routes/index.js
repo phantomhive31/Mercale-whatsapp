@@ -32,7 +32,6 @@ import Annoucements from "../pages/Annoucements";
 import Chat from "../pages/Chat";
 import ToDoList from "../pages/ToDoList/";
 import Subscription from "../pages/Subscription/";
-import ChatbotIntegration from "../pages/ChatbotIntegration/OfflineTest";
 
 const Routes = () => {
   const [showCampaigns, setShowCampaigns] = useState(false);
@@ -118,18 +117,6 @@ const Routes = () => {
                   exact
                   path="/subscription"
                   component={Subscription}
-                  isPrivate
-                />
-                <Route
-                  exact
-                  path="/chatbot"
-                  component={ChatbotIntegration}
-                  isPrivate
-                />
-                <Route
-                  exact
-                  path="/chatbot-integration"
-                  component={ChatbotIntegration}
                   isPrivate
                 />
                 

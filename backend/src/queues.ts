@@ -64,7 +64,7 @@ async function handleSendMessage(job) {
     await SendMessage(whatsapp, messageData);
   } catch (e: unknown) {
     Sentry.captureException(e);
-    logger.error({ error: (e as Error).message }, "MessageQueue -> SendMessage: error");
+    logger.error("MessageQueue -> SendMessage: error", (e as Error).message);
     throw e;
   }
 }
@@ -97,7 +97,7 @@ async function handleVerifySchedules() {
     }
   } catch (e: unknown) {
     Sentry.captureException(e);
-    logger.error({ error: (e as Error).message }, "SendScheduledMessage -> Verify: error");
+    logger.error("SendScheduledMessage -> Verify: error", (e as Error).message);
     throw e;
   }
 }
@@ -164,8 +164,8 @@ async function handleSendScheduledMessage(job) {
       status: "ERRO"
     });
     logger.error(
-      { error: (e as Error).message },
-      "SendScheduledMessage -> SendMessage: error"
+      "SendScheduledMessage -> SendMessage: error",
+      (e as Error).message
     );
     throw e;
   }

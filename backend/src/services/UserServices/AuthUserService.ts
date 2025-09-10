@@ -9,7 +9,6 @@ import { SerializeUser } from "../../helpers/SerializeUser";
 import Queue from "../../models/Queue";
 import Company from "../../models/Company";
 import Setting from "../../models/Setting";
-import { WebhookService } from "../webhookService";
 
 interface SerializedUser {
   id: number;
@@ -55,13 +54,6 @@ const AuthUserService = async ({
   const refreshToken = createRefreshToken(user);
 
   const serializedUser = await SerializeUser(user);
-
-  // Enviar webhook para n8n
-  try {
-    await WebhookService.getInstance().userLoggedIn(serializedUser);
-  } catch (error) {
-    console.error('Error sending webhook for user login:', error);
-  }
 
   return {
     serializedUser,

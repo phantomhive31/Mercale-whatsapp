@@ -10,8 +10,6 @@ import { verifyMediaMessage, verifyMessage } from "./wbotMessageListener";
 import User from "../../models/User";
 import { getJidOf } from "./getJidOf";
 import Whatsapp from "../../models/Whatsapp";
-import { blockOptinMessages, getBlockedMessage } from "../../middleware/blockOptinMessages";
-import { globalOptinBlocker } from "../../middleware/globalOptinBlocker";
 
 interface Request {
   body: string;
@@ -26,22 +24,6 @@ const SendWhatsAppMessage = async ({
   userId,
   quotedMsg
 }: Request): Promise<WAMessage> => {
-  // BLOQUEIO GLOBAL DEFINITIVO: Impede envio de mensagens de opt-in
-  if (body && (blockOptinMessages(body) || globalOptinBlocker.blockMessage(body, 'SendWhatsAppMessage'))) {
-    console.log('BLOCKED: Opt-in message completely disabled by global blocker');
-    // Retorna um mock de mensagem para não quebrar o fluxo
-    return {
-      key: {
-        id: 'blocked-optin-message',
-        fromMe: true,
-        remoteJid: getJidOf(ticket)
-      },
-      message: {
-        conversation: getBlockedMessage()
-      }
-    } as WAMessage;
-  }
-
   let options = {};
 
   const connection = await Whatsapp.findByPk(ticket.whatsappId);

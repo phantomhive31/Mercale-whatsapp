@@ -28,7 +28,6 @@ import OldMessage from "../../models/OldMessage";
 import { getIO } from "../../libs/socket";
 import CreateMessageService from "../MessageServices/CreateMessageService";
 import { logger } from "../../utils/logger";
-import { globalOptinBlocker } from "../../middleware/globalOptinBlocker";
 import FindOrCreateTicketService from "../TicketServices/FindOrCreateTicketService";
 import ShowWhatsAppService from "../WhatsappService/ShowWhatsAppService";
 import UpdateTicketService, {
@@ -99,7 +98,7 @@ const msgLocation = (
   longitude: number
 ) => {
   if (image) {
-    const b64 = Buffer.from(image as ArrayBuffer).toString("base64");
+    const b64 = Buffer.from(image).toString("base64");
 
     const data = `data:image/png;base64, ${b64} | https://maps.google.com/maps?q=${latitude}%2C${longitude}&z=17&hl=pt-BR|${latitude}, ${longitude} `;
     return data;
@@ -1453,13 +1452,6 @@ const handleMessage = async (
 ): Promise<void> => {
   if (!isValidMsg(msg)) return;
 
-  // BLOQUEIO GLOBAL RADICAL: Intercepta qualquer mensagem de opt-in antes do processamento
-  const bodyMessage = getBodyMessage(msg?.message);
-  if (bodyMessage && globalOptinBlocker.blockMessage(bodyMessage, 'wbotMessageListener')) {
-    console.log('BLOCKED: Opt-in message intercepted at message handler level by global blocker');
-    return;
-  }
-
   if (msg.message?.ephemeralMessage) {
     msg.message = msg.message.ephemeralMessage.message;
   }
@@ -1832,23 +1824,10 @@ const handleMessage = async (
       }
 
       if (whatsapp.greetingMessage) {
-        // BLOQUEIO GLOBAL RADICAL: Verifica se a mensagem de saudação contém opt-in
-        const greetingText = formatBody(`${whatsapp.greetingMessage}`, ticket);
-        if (greetingText && globalOptinBlocker.blockMessage(greetingText, 'greetingMessage')) {
-          console.log('BLOCKED: Opt-in greeting message detected and blocked by global blocker');
-          return;
-        }
-
         const debouncedSentMessage = debounce(
           async () => {
-            // BLOQUEIO GLOBAL FINAL: Verifica novamente antes de enviar
-            if (greetingText && globalOptinBlocker.blockMessage(greetingText, 'finalSendLevel')) {
-              console.log('BLOCKED: Opt-in message blocked at final send level by global blocker');
-              return;
-            }
-            
             await wbot.sendMessage(getJidOf(ticket), {
-              text: greetingText
+              text: formatBody(`${whatsapp.greetingMessage}`, ticket)
             });
           },
           1000,
