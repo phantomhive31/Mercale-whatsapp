@@ -12,12 +12,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const BackdropLoading = () => {
-	const classes = useStyles();
-	return (
-		<Backdrop className={classes.backdrop} open={true}>
-			<CircularProgress color="inherit" />
-		</Backdrop>
-	);
+	// Animação de carregamento removida
+	return null;
 };
 
 export default BackdropLoading;

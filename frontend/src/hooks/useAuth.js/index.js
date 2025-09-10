@@ -74,6 +74,13 @@ const useAuth = () => {
       }
       setLoading(false);
     })();
+    
+    // Timeout de segurança para garantir que o loading seja definido como false
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+    
+    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {

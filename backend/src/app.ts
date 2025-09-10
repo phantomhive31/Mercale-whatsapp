@@ -30,7 +30,26 @@ app.set("queues", {
 app.use(
   cors({
     credentials: true,
-    origin: process.env.FRONTEND_URL,
+    origin: (origin, callback) => {
+      // Permitir requisições sem origin (ex: mobile apps, Postman)
+      if (!origin) return callback(null, true);
+      
+      // Lista de origens permitidas
+      const allowedOrigins = [
+        process.env.FRONTEND_URL,
+        "http://localhost:80",
+        "http://127.0.0.1:80"
+      ];
+      
+      // Permitir qualquer IP da rede local (172.x.x.x, 192.168.x.x, 10.x.x.x)
+      const isLocalNetwork = /^https?:\/\/(172\.|192\.168\.|10\.|127\.0\.0\.1)/.test(origin);
+      
+      if (allowedOrigins.includes(origin) || isLocalNetwork) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     exposedHeaders: ["Content-Range", "X-Content-Range"]
   })
 );
