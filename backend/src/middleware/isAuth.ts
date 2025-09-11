@@ -22,12 +22,23 @@ const isAuth = (req: Request, res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
+    console.log("Auth middleware: No authorization header");
     throw new AppError("ERR_UNAUTHORIZED", 401, "debug");
   }
 
   const [, token] = authHeader.split(" ");
 
+  if (!token) {
+    console.log("Auth middleware: No token provided");
+    throw new AppError("ERR_UNAUTHORIZED", 401, "debug");
+  }
+
   try {
+    if (!authConfig.secret) {
+      console.log("Auth middleware: JWT secret not configured");
+      throw new AppError("ERR_SESSION_EXPIRED", 403, "debug");
+    }
+
     const tokenData = verify(token, authConfig.secret) as TokenPayload;
     req.user = {
       id: tokenData.id,
@@ -37,6 +48,7 @@ const isAuth = (req: Request, res: Response, next: NextFunction): void => {
     };
     req.companyId = tokenData.companyId;
   } catch (err) {
+    console.log("Auth middleware: Token verification failed:", err.message);
     throw new AppError("ERR_SESSION_EXPIRED", 403, "debug");
   }
 

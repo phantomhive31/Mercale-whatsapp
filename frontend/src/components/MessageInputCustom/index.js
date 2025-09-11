@@ -1032,12 +1032,18 @@ const MessageInputCustom = (props) => {
     if(disableOption)return;
     setLoading(true);
     try {
+      // Verificar se a API de mídia está disponível
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error("API de mídia não suportada neste navegador");
+      }
+      
       await navigator.mediaDevices.getUserMedia({ audio: true });
       await Mp3Recorder.start();
       setRecording(true);
       setLoading(false);
       handlePresenceUpdate("recording");
     } catch (err) {
+      console.error("Erro ao iniciar gravação:", err);
       toastError(err);
       setLoading(false);
     }

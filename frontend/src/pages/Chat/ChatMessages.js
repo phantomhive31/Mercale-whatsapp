@@ -272,11 +272,17 @@ export default function ChatMessages({
   const handleStartRecording = async () => {
     setLoading(true);
     try {
+      // Verificar se a API de mídia está disponível
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error("API de mídia não suportada neste navegador");
+      }
+      
       await navigator.mediaDevices.getUserMedia({ audio: true });
       await Mp3Recorder.start();
       setRecording(true);
       setLoading(false);
     } catch (err) {
+      console.error("Erro ao iniciar gravação:", err);
       toastError(err);
       setLoading(false);
     }

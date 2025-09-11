@@ -83,7 +83,7 @@ export async function verifyContact(
   companyId: number
 ): Promise<Contact> {
   let profilePicUrl: string;
-  const noPicture = `${process.env.FRONTEND_URL}/nopicture.png`;
+  const noPicture = `${process.env.FRONTEND_URL}/vector/logo.svg`;
 
   try {
     profilePicUrl =
