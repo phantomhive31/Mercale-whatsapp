@@ -25,7 +25,9 @@ import {
   Facebook,
   Instagram,
   Description,
-  Forward
+  Forward,
+  Launch,
+  Reply
 } from "@material-ui/icons";
 
 import WhatsMarked from "react-whatsmarked";
@@ -245,6 +247,10 @@ const useStyles = makeStyles((theme) => ({
     overflowWrap: "break-word",
     padding: "3px 120px 6px 6px",
   },
+  messageMediaDeleted: {
+    filter: "grayscale(1)",
+    opacity: 0.4
+  },  
 
   messageVideo: {
     width: 250,
@@ -504,6 +510,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 5,
     borderLeft: "5px solid",
     borderColor: theme.mode === 'light' ? "#000" : "#fff",
+  },
+  messageButton: {
+    display: "flex",
+    width: "100%",
+    textTransform: "none",
+    margin: "auto",
   }
 }));
 
@@ -562,7 +574,7 @@ const reducer = (state, action) => {
   }
 };
 
-const MessagesList = ({ ticket, ticketId, isGroup, markAsRead }) => {
+const MessagesList = ({ ticket, ticketId, isGroup, markAsRead, allowReplyButtons }) => {
   const classes = useStyles();
 
   const [messagesList, dispatch] = useReducer(reducer, []);
@@ -728,10 +740,10 @@ const MessagesList = ({ ticket, ticketId, isGroup, markAsRead }) => {
               [classes.textContentItemDeleted]: message.isDeleted,
               [classes.textContentItem]: !message.isDeleted,
             }),]}>
-              {data?.message?.imageMessage?.caption &&
+              {message.body &&
                 <>
                   <WhatsMarked>
-                    {data.message.imageMessage.caption}
+                    {message.body}
                   </WhatsMarked>
                 </>
               }
@@ -760,11 +772,27 @@ const MessagesList = ({ ticket, ticketId, isGroup, markAsRead }) => {
 
     if (!document || message.mediaType === "video") {
       return (
-        <video
-          className={classes.messageVideo}
-          src={message.mediaUrl}
-          controls
-        />
+        <>
+          <video
+            className={[clsx(classes.messageVideo, {
+              [classes.messageMediaDeleted]: message.isDeleted
+            })]}
+            src={message.mediaUrl}
+            controls
+          />
+          <div className={[clsx({
+            [classes.textContentItemDeleted]: message.isDeleted,
+            [classes.textContentItem]: !message.isDeleted,
+          }),]}>
+            {message.body &&
+              <>
+                <WhatsMarked>
+                  {message.body}
+                </WhatsMarked>
+              </>
+            }
+          </div>
+        </>
       );
     } else {
       return (
@@ -1001,6 +1029,81 @@ const MessagesList = ({ ticket, ticketId, isGroup, markAsRead }) => {
     );
   };
 
+  const sendReply = async (body) => {
+    const message = {
+      read: 1,
+      fromMe: true,
+      mediaUrl: "",
+      body
+    };
+
+    api.post(`/messages/${ticketId}`, message).catch((err) => {
+      toastError(err);
+    });
+  };
+
+  const renderReplyButton = (text) => {
+    return (
+      <Button
+        className={classes.messageButton}
+        color="primary"
+        startIcon={<Reply />}
+        disabled={!(allowReplyButtons || false)}
+        onClick={() => {
+          if (allowReplyButtons) {
+            sendReply(text);
+          };
+        }
+        }
+      >
+        {text}
+      </Button>
+    );
+  }
+  
+  const renderButtons = (message) => {
+    const objects = 
+      message?.buttonsMessage?.buttons ||
+      message?.listMessage?.sections ||
+      message?.templateMessage?.hydratedTemplate?.hydratedButtons ||
+      message?.templateMessage?.interactiveMessageTemplate?.nativeFlowMessage?.buttons
+
+    if (!objects) return (<></>);
+
+    return objects.map((item, index) => {
+      if (item.urlButton) {
+        return (
+          <Button
+            className={classes.messageButton}
+            key={index}
+            color="primary"
+            startIcon={item.urlButton.displayText === 'Facebook' ? <Facebook /> : item.urlButton.displayText === 'Instagram' ? <Instagram /> : <Launch />}
+          >
+            <a href={item.urlButton.url} target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}>
+              {item.urlButton.displayText}
+            </a>
+          </Button>
+        );
+      } else if (item.quickReplyButton) {
+        return renderReplyButton(item.quickReplyButton.displayText);
+      } else if (item.type === "RESPONSE" && item.buttonText) {
+        return renderReplyButton(item.buttonText.displayText);
+      } else if (item.buttonParamsJson) {
+        const params = JSON.parse(item.buttonParamsJson);
+        if (params?.displayText) {
+          return renderReplyButton(params.displayText);
+        }
+      } else if (item.rows) {
+        return item.rows.map((row) => {
+          return renderReplyButton(row.title);
+        });
+      }
+         
+      return (<></>);
+    }
+    );
+  };
+  
   const formatVCardN = (n) => {
     return(
       (n[3] ? n[3] + " " : "") +
@@ -1245,6 +1348,7 @@ const MessagesList = ({ ticket, ticketId, isGroup, markAsRead }) => {
                     </span>
                   </div>)}
                   {message.mediaUrl && !data?.message?.extendedTextMessage && checkMessageMedia(message, data)}
+                  {renderButtons(data?.message)}
                   {renderReplies(message.replies)}
             </div>
           </React.Fragment>

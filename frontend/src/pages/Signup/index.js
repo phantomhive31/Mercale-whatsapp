@@ -33,20 +33,7 @@ import toastError from "../../errors/toastError";
 import ReCAPTCHA from "react-google-recaptcha";
 import config from "../../services/config";
 import useSettings from "../../hooks/useSettings";
-import { getBackendURL } from "../../services/config";
-
-const Copyright = () => {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{"Copyright © "}
-			<Link color="inherit" href="#">
-				PLW
-			</Link>{" "}
-		   {new Date().getFullYear()}
-			{"."}
-		</Typography>
-	);
-};
+import { safeValueFormat } from "../../helpers/safeValueFormat";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -238,7 +225,7 @@ const SignUp = () => {
 									>
 										{plans.map((plan, key) => (
 											<MenuItem key={key} value={plan.id}>
-												{plan.name} - Atendentes: {plan.users} - WhatsApp: {plan.connections} - Filas: {plan.queues} - R$ {plan.value}
+												{plan.name} - Atendentes: {plan.users} - WhatsApp: {plan.connections} - Filas: {plan.queues} - {safeValueFormat(plan.value, plan.currency)}
 											</MenuItem>
 										))}
 									</Field>

@@ -30,9 +30,12 @@ const messages = {
         proceed: "Prosseguir",
         enabled: "Ativado",
         disabled: "Desativado",
+        yes: "Sim",
+        no: "Não",
         noqueue: "Sem fila",
         rating: "Avaliação",
         transferTo: "Transferir para",
+        value: "Valor",
       },
       signup: {
         title: "Cadastre-se",
@@ -117,6 +120,7 @@ const messages = {
           disconnectTitle: "Desconectar",
           disconnectMessage:
             "Tem certeza? Você precisará ler o QR Code novamente.",
+          closeTickets: "Fechar todos os atendimentos desta conexão",
         },
         buttons: {
           add: "Adicionar WhatsApp",
@@ -245,6 +249,9 @@ const messages = {
           transferMessage: "Mensagem de Transferência",
           token: "Token",
         },
+        toasts: {
+          saved: "Fila salva com sucesso",
+        },
         buttons: {
           okAdd: "Adicionar",
           okEdit: "Salvar",
@@ -270,6 +277,10 @@ const messages = {
         title: {
           add: "Adicionar usuário",
           edit: "Editar usuário",
+        },
+        listItems:{
+          adminProfile: "Administrador",
+          userProfile: "Usuário",
         },
         form: {
           name: "Nome",
@@ -333,6 +344,16 @@ const messages = {
           titleFileList: "Lista de arquivo(s)"
         },
       },
+      todolist: {
+        title: "Lista de tarefas",
+        form: {
+          name: "Nome da tarefa",
+        },
+        buttons: {
+          add: "Adicionar",
+          save: "Salvar",
+        },
+      },
       ticketsManager: {
         buttons: {
           newTicket: "Novo",
@@ -347,6 +368,7 @@ const messages = {
         },
         notification: {
           message: "Mensagem de",
+          nomessages: "Sem novas mensagens",
         },
         tabs: {
           open: { title: "Abertas" },
@@ -413,7 +435,8 @@ const messages = {
           financeiro: "Financeiro",
           logout: "Sair",
           management: "Gerência",
-          kanban: "Kanban"
+          kanban: "Kanban",
+          tasks: "Tarefas"
         },
         appBar: {
           i18n: {
@@ -665,6 +688,9 @@ const messages = {
           color: "Cor",
           greeting: "Mensagem de saudação",
           actions: "Ações",
+        },
+        toasts: {
+          deleted: "Fila removida com sucesso",
         },
         buttons: {
           add: "Adicionar fila",
@@ -922,6 +948,11 @@ const messages = {
         },
         Plans: {
           title: "Planos",
+          public: "Público",
+          usersLimit: "Limite de usuários",
+          connectionsLimit: "Limite de conexões",
+          queuesLimit: "Limite de filas",
+          currencyCode: "Código da Moeda (ISO 4217)",
         },
         Help: {
           title: "Ajuda",
@@ -958,6 +989,8 @@ const messages = {
             resolve: "Resolver",
             reopen: "Reabrir",
             accept: "Aceitar",
+            call: "Chamar",
+            endCall: "Encerrar Chamada",
           },
         },
       },
@@ -1101,6 +1134,9 @@ const messages = {
         ERR_WAPP_NOT_FOUND: "Conexão indisponível",
         ERR_SUBSCRIPTION_EXPIRED: "Assinatura expirada",
         ERR_UNKOWN: "Erro desconhecido",
+      },
+      phoneCall: {
+        hangup: "Desligar",
       },
       wavoipModal: {
         title: "Insira o token da sua conexão no Wavoip",

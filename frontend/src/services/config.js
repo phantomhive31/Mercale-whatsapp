@@ -20,19 +20,27 @@ if (!config) {
 }
 
 export function getBackendURL() {
+  // Detect if accessing via IP address
+  const isIPAccess = window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1";
+  const backendHost = isIPAccess ? window.location.hostname : (config.BACKEND_HOST || "localhost");
+  
   return (
     config.REACT_APP_BACKEND_URL ||
     (config.BACKEND_PROTOCOL ?? "https") + "://" +
-    (config.BACKEND_HOST) + ":" + (config.BACKEND_PORT ?? 443) +
+    backendHost + ":" + (config.BACKEND_PORT ?? 443) +
     (config.BACKEND_PATH ?? "")
   );
 }
 
 export function getBackendSocketURL() {
+  // Detect if accessing via IP address
+  const isIPAccess = window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1";
+  const backendHost = isIPAccess ? window.location.hostname : (config.BACKEND_HOST || "localhost");
+  
   return (
     config.REACT_APP_BACKEND_URL ||
     (config.BACKEND_PROTOCOL ?? "https") + "://" +
-    (config.BACKEND_HOST) + ":" + (config.BACKEND_PORT ?? 443)
+    backendHost + ":" + (config.BACKEND_PORT ?? 443)
   );
 }
 

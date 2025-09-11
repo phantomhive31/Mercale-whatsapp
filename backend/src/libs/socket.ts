@@ -78,26 +78,15 @@ const notifyOnlineChange = (companyId: number, userId: number, online) => {
 export const initIO = (httpServer: Server): SocketIO => {
   io = new SocketIO(httpServer, {
     cors: {
-      origin: (origin, callback) => {
-        // Permitir requisições sem origin
-        if (!origin) return callback(null, true);
-        
-        // Lista de origens permitidas
-        const allowedOrigins = [
-          process.env.FRONTEND_URL,
-          "http://localhost:80",
-          "http://127.0.0.1:80"
-        ];
-        
-        // Permitir qualquer IP da rede local
-        const isLocalNetwork = /^https?:\/\/(172\.|192\.168\.|10\.|127\.0\.0\.1)/.test(origin);
-        
-        if (allowedOrigins.includes(origin) || isLocalNetwork) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
-      }
+      origin: [
+        process.env.FRONTEND_URL,
+        `http://${process.env.FRONTEND_HOST}:${process.env.FRONTEND_PORT}`,
+        `http://localhost:${process.env.FRONTEND_PORT}`,
+        `http://127.0.0.1:${process.env.FRONTEND_PORT}`,
+        /^http:\/\/172\.\d+\.\d+\.\d+:\d+$/, // Aceita qualquer IP da rede 172.x.x.x
+        /^http:\/\/192\.168\.\d+\.\d+:\d+$/, // Aceita qualquer IP da rede 192.168.x.x
+        /^http:\/\/10\.\d+\.\d+\.\d+:\d+$/  // Aceita qualquer IP da rede 10.x.x.x
+      ]
     }
   });
 

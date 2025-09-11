@@ -30,9 +30,12 @@ const messages = {
         proceed: "Proceed",
         enabled: "Enabled",
         disabled: "Disabled",
+        yes: "Yes",
+        no: "No",
         noqueue: "No queue",
         rating: "Rating",
         transferTo: "Transfer to",
+        value: "Value",
       },
       signup: {
         title: "Sign Up",
@@ -116,6 +119,7 @@ const messages = {
           deleteMessage: "Are you sure? This action cannot be undone.",
           disconnectTitle: "Disconnect",
           disconnectMessage: "Are you sure? You will need to scan the QR Code again.",
+          closeTickets: "Close all open tickets from this connection",
         },
         buttons: {
           add: "Add WhatsApp",
@@ -239,6 +243,9 @@ const messages = {
           transferMessage: "Transfer Message",
           token: "Token",
         },
+        toasts: {
+          saved: "Queue saved successfully",
+        },
         buttons: {
           okAdd: "Add",
           okEdit: "Save",
@@ -326,6 +333,16 @@ const messages = {
           titleFileList: "List of file(s)"
         },
       },
+      todolist: {
+        title: "Tasks list",
+        form: {
+          name: "Task name",
+        },
+        buttons: {
+          add: "Add",
+          save: "Save",
+        },
+      },
       ticketsManager: {
         buttons: {
           newTicket: "New",
@@ -340,6 +357,7 @@ const messages = {
         },
         notification: {
           message: "Message from",
+          nomessages: "No messages",
         },
         tabs: {
           open: { title: "Open" },
@@ -349,6 +367,8 @@ const messages = {
         },
         search: {
           placeholder: "Search for ticket and messages",
+          filterByTags: "Filter by tags",
+          filterByUsers: "Filter by users",
         },
         buttons: {
           showAll: "All",
@@ -405,7 +425,8 @@ const messages = {
           financeiro: "Financial",
           logout: "Logout",
           management: "Management",
-          kanban: "Kanban"
+          kanban: "Kanban",
+          tasks: "Tasks",
         },
         appBar: {
           i18n: {
@@ -657,14 +678,17 @@ const messages = {
           greeting: "Greeting Message",
           actions: "Actions",
         },
-      },
-      buttons: {
-        add: "Add Queue",
-      },
-      confirmationModal: {
-        deleteTitle: "Delete",
-        deleteMessage:
-          "Are you sure? This action cannot be undone! The tickets from this queue will still exist but will no longer be assigned to any queue.",
+        toasts: {
+          deleted: "Queue removed successfully",
+        },
+        buttons: {
+          add: "Add Queue",
+        },
+        confirmationModal: {
+          deleteTitle: "Delete",
+          deleteMessage:
+            "Are you sure? This action cannot be undone! The tickets from this queue will still exist but will no longer be assigned to any queue.",
+        },
       },
       queueSelect: {
         inputLabel: "Queues",
@@ -913,6 +937,11 @@ const messages = {
         },
         Plans: {
           title: "Plans",
+          public: "Public",
+          usersLimit: "Users limit",
+          connectionsLimit: "Connections limit",
+          queuesLimit: "Queues limit",
+          currencyCode: "Currency code (ISO 4217)",
         },
         Help: {
           title: "Help",
@@ -949,6 +978,8 @@ const messages = {
             resolve: "Resolve",
             reopen: "Reopen",
             accept: "Accept",
+            call: "Call",
+            endCall: "End Call",
           },
         },
       },
@@ -1082,6 +1113,9 @@ const messages = {
         ERR_WAPP_NOT_FOUND: "Connection unavailable.",
         ERR_SUBSCRIPTION_EXPIRED: "Your subscription has expired.",
         ERR_UNKOWN: "Unknown error.",
+      },
+      phoneCall: {
+        hangup: "Hang up",
       },
       wavoipModal: {
         title: "Enter your Wavoip connection token",

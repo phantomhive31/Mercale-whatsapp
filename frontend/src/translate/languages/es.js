@@ -30,9 +30,12 @@ const messages = {
         proceed: "Proceder",
         enabled: "Activado",
         disabled: "Desactivado",
+        yes: "Sí",
+        no: "No",
         noqueue: "Sin cola",
         rating: "Calificación",
         transferTo: "Transferir a",
+        value: "Valor",
       },
       signup: {
         title: "Registrarse",
@@ -116,6 +119,7 @@ const messages = {
           disconnectTitle: "Desconectar",
           disconnectMessage:
             "¿Estás seguro? Tendrás que escanear el código QR nuevamente.",
+          closeTickets: "Cerrar todas las atenciones de esta conexión",
         },
         buttons: {
           add: "Agregar WhatsApp",
@@ -243,6 +247,9 @@ const messages = {
           transferMessage: "Mensaje de transferencia",
           token: "Token",
         },
+        toasts: {
+          saved: "Cola guardada exitosamente",
+        },
         buttons: {
           okAdd: "Agregar",
           okEdit: "Guardar",
@@ -330,6 +337,16 @@ const messages = {
           titleFileList: "Lista de archivo(s)"
         },
       },
+       todolist: {
+        title: "Lista de tareas",
+        form: {
+          name: "Nombre de la tarea",
+        },
+        buttons: {
+          add: "Añadir",
+          save: "Guardar",
+        },
+      },
       ticketsManager: {
         buttons: {
           newTicket: "Nuevo",
@@ -344,6 +361,7 @@ const messages = {
         },
         notification: {
           message: "Mensaje de",
+          nomessages: "Ningún mensaje",
         },
         tabs: {
           open: { title: "Abiertas" },
@@ -411,6 +429,7 @@ const messages = {
           logout: "Cerrar sesión",
           management: "Gerencia",
           kanban: "Kanban",
+          tasks: "Tareas",
         },
         appBar: {
           i18n: {
@@ -661,6 +680,9 @@ const messages = {
           color: "Color",
           greeting: "Mensaje de bienvenida",
           actions: "Acciones",
+        },
+        toasts: {
+          deleted: "Cola eliminada exitosamente",
         },
         buttons: {
           add: "Agregar cola",
@@ -918,6 +940,12 @@ const messages = {
         },
         Plans: {
           title: "Planes",
+          public: "Público",
+          private: "Privado",
+          usersLimit: "Límite de usuarios",
+          connectionsLimit: "Límite de conexiones",
+          queuesLimit: "Límite de colas",
+          currencyCode: "Código de moneda (ISO 4217)",
         },
         Help: {
           title: "Ayuda",
@@ -954,6 +982,8 @@ const messages = {
             resolve: "Resolver",
             reopen: "Reabrir",
             accept: "Aceptar",
+            call: "Llamar",
+            endCall: "Cortar",
           },
         },
       },
@@ -1020,7 +1050,7 @@ const messages = {
       presence: {
         unavailable: "Indisponible",
         available: "Disponible",
-        composing: "Escrebiendo",
+        composing: "Escribiendo",
         recording: "Grabando",
         paused: "Pausado",
       },
@@ -1093,6 +1123,9 @@ const messages = {
           "Este color ya está en uso, elija otro.",
         ERR_WAPP_GREETING_REQUIRED:
           "El mensaje de saludo es obligatorio cuando hay más de una cola.",
+      },
+      phoneCall: {
+        hangup: "Cortar",
       },
       wavoipModal: {
         title: "Ingrese el token de su conexión en Wavoip",

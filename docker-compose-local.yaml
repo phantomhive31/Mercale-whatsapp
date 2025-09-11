@@ -22,15 +22,14 @@ services:
     depends_on:
       - postgres
       - redis
-    # In dev, não expor a porta do backend diretamente; usar o Nginx do frontend como proxy
-    expose:
-      - 3000
+    ports:
+      - ${BACKEND_PORT:-8080}:3000
     networks:
       - ticketz
 
   frontend:
     ports:
-      - 80:80
+      - ${FRONTEND_PORT:-80}:80
     build:
       context: ./frontend
       dockerfile: ./Dockerfile

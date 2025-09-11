@@ -16,6 +16,7 @@ import {
 	Tooltip,
 	Typography,
 	CircularProgress,
+    Checkbox,
 } from "@material-ui/core";
 import {
 	Edit,
@@ -49,6 +50,7 @@ import { WhatsAppsContext } from "../../context/WhatsApp/WhatsAppsContext";
 import toastError from "../../errors/toastError";
 import wavoipIcon from "../../assets/wavoip.webp";
 import WavoipModal from "../../components/WavoipModal";
+import { wavoipAvailable } from "../../helpers/wavoipCallManager";
 
 const useStyles = makeStyles(theme => ({
 	mainPaper: {
@@ -194,7 +196,7 @@ const Connections = () => {
 		setConfirmModalOpen(true);
 	};
 
-	const handleSubmitConfirmationModal = async () => {
+	const handleSubmitConfirmationModal = async (checked) => {
 		if (confirmModalInfo.action === "disconnect") {
 			try {
 				await api.delete(`/whatsappsession/${confirmModalInfo.whatsAppId}`);
@@ -205,7 +207,9 @@ const Connections = () => {
 
 		if (confirmModalInfo.action === "delete") {
 			try {
-				await api.delete(`/whatsapp/${confirmModalInfo.whatsAppId}`);
+        await api.delete(`/whatsapp/${confirmModalInfo.whatsAppId}`, {
+          params: { closeTickets: checked }
+        });
 				toast.success(i18n.t("connections.toasts.deleted"));
 			} catch (err) {
 				toastError(err);
@@ -352,6 +356,7 @@ const Connections = () => {
 				open={confirmModalOpen}
 				onClose={setConfirmModalOpen}
 				onConfirm={handleSubmitConfirmationModal}
+        checkbox={confirmModalInfo.action === "delete" ? i18n.t("connections.confirmationModal.closeTickets") : undefined}
 			>
 				{confirmModalInfo.message}
 			</ConfirmationModal>
@@ -455,7 +460,7 @@ const Connections = () => {
 													</IconButton>
 												)}
 
-                        {whatsApp.channel === "whatsapp" && (
+                        {whatsApp.channel === "whatsapp" && wavoipAvailable() && (
                           <IconButton
                             size="small"
                             onClick={() => handleOpenWavoipModal(whatsApp)}
