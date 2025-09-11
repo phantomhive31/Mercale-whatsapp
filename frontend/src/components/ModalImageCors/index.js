@@ -4,7 +4,6 @@ import clsx from "clsx";
 import { Dialog, DialogContent, IconButton, Typography } from "@material-ui/core";
 import { Close, ZoomIn } from "@material-ui/icons";
 
-import ModalImage from "react-modal-image";
 import api from "../../services/api";
 
 const useStyles = makeStyles(theme => ({
@@ -82,12 +81,10 @@ const useStyles = makeStyles(theme => ({
 const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 	const classes = useStyles();
 	const [imageError, setImageError] = useState(false);
-	const [imageLoaded, setImageLoaded] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 
 	useEffect(() => {
 		setImageError(false);
-		setImageLoaded(false);
 		setModalOpen(false);
 	}, [imageUrl]);
 
@@ -96,13 +93,8 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 		setImageError(true);
 	};
 
-	const handleImageLoad = () => {
-		console.log("Imagem carregada com sucesso:", imageUrl);
-		setImageLoaded(true);
-	};
-
 	const handleImageClick = () => {
-		if (imageLoaded && !imageError) {
+		if (!imageError) {
 			setModalOpen(true);
 		}
 	};
@@ -125,28 +117,7 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 		);
 	}
 
-	// Se a imagem ainda não carregou, mostrar placeholder
-	if (!imageLoaded) {
-		return (
-			<div 
-				className={clsx(classes.messageMedia, {
-					[classes.messageMediaDeleted]: isDeleted,
-					[classes.messageMediaSticker]: data && ("stickerMessage" in data.message)
-				})}
-				style={{ 
-					display: "flex", 
-					alignItems: "center", 
-					justifyContent: "center",
-					backgroundColor: "#f5f5f5",
-					color: "#666"
-				}}
-			>
-				Carregando...
-			</div>
-		);
-	}
-
-	// Usar modal customizado diretamente
+	// Renderizar imagem diretamente
 	return (
 		<>
 			<img
@@ -157,7 +128,6 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 				src={imageUrl}
 				alt="image"
 				onError={handleImageError}
-				onLoad={handleImageLoad}
 				onClick={handleImageClick}
 			/>
 			
