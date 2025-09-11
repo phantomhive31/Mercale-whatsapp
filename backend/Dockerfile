@@ -47,9 +47,4 @@ ENV TICKETZ_REGISTRY_URL=${TICKETZ_REGISTRY_URL}
 
 EXPOSE 3000
 
-CMD dockerize -wait tcp://${DB_HOST}:5432 -timeout 60s \
-  && npx sequelize db:migrate  --config dist/config/database.js --migrations-path dist/database/migrations \
-  && echo "Script not found, skipping..." && exit_code=0 \
-  && if [ $exit_code -eq 1 ]; then npm run mark-seeds; exit 0; elif [ $exit_code -ge 100 ]; then exit 1; fi \
-  && npx sequelize db:seed:all --config dist/config/database.js --seeders-path dist/database/seeds \
-  && node dist/server.js
+CMD ["sh", "-c", "dockerize -wait tcp://${DB_HOST}:5432 -timeout 60s && npx sequelize db:migrate --config dist/config/database.js --migrations-path dist/database/migrations && echo 'Script not found, skipping...' && exit_code=0 && if [ $exit_code -eq 1 ]; then npm run mark-seeds; exit 0; elif [ $exit_code -ge 100 ]; then exit 1; fi && npx sequelize db:seed:all --config dist/config/database.js --seeders-path dist/database/seeds && node dist/server.js"]
