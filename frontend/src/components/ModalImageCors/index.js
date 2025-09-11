@@ -84,7 +84,6 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 	const [imageError, setImageError] = useState(false);
 	const [imageLoaded, setImageLoaded] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
-	const [useCustomModal, setUseCustomModal] = useState(false);
 
 	useEffect(() => {
 		setImageError(false);
@@ -98,6 +97,7 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 	};
 
 	const handleImageLoad = () => {
+		console.log("Imagem carregada com sucesso:", imageUrl);
 		setImageLoaded(true);
 	};
 
@@ -118,7 +118,7 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 				<div>
 					<p>Erro ao carregar imagem</p>
 					<p style={{ fontSize: "12px", marginTop: "5px" }}>
-						Clique para tentar novamente
+						URL: {imageUrl}
 					</p>
 				</div>
 			</div>
@@ -146,73 +146,51 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 		);
 	}
 
-	// Tenta usar react-modal-image primeiro, se falhar usa modal customizado
-	try {
-		return (
-			<>
-				<ModalImage
-					className={clsx(classes.messageMedia, {
-						[classes.messageMediaDeleted]: isDeleted,
-						[classes.messageMediaSticker]: data && ("stickerMessage" in data.message)
-					})}
-					smallSrcSet={imageUrl}
-					medium={imageUrl}
-					large={imageUrl}
-					showRotate={true}
-					imageBackgroundColor="unset"
-					alt="image"
-					onError={handleImageError}
-					onLoad={handleImageLoad}
-				/>
-			</>
-		);
-	} catch (error) {
-		// Fallback para modal customizado
-		return (
-			<>
-				<img
-					className={clsx(classes.messageMedia, {
-						[classes.messageMediaDeleted]: isDeleted,
-						[classes.messageMediaSticker]: data && ("stickerMessage" in data.message)
-					})}
-					src={imageUrl}
-					alt="image"
-					onError={handleImageError}
-					onLoad={handleImageLoad}
-					onClick={handleImageClick}
-				/>
-				
-				<Dialog
-					open={modalOpen}
-					onClose={handleModalClose}
-					maxWidth={false}
-					fullWidth
-					PaperProps={{
-						style: {
-							backgroundColor: "transparent",
-							boxShadow: "none",
-						},
-					}}
-				>
-					<DialogContent className={classes.modalContent}>
-						<IconButton
-							className={classes.closeButton}
-							onClick={handleModalClose}
-							size="small"
-						>
-							<Close />
-						</IconButton>
-						<img
-							className={classes.modalImage}
-							src={imageUrl}
-							alt="image"
-							onError={handleImageError}
-						/>
-					</DialogContent>
-				</Dialog>
-			</>
-		);
-	}
+	// Usar modal customizado diretamente
+	return (
+		<>
+			<img
+				className={clsx(classes.messageMedia, {
+					[classes.messageMediaDeleted]: isDeleted,
+					[classes.messageMediaSticker]: data && ("stickerMessage" in data.message)
+				})}
+				src={imageUrl}
+				alt="image"
+				onError={handleImageError}
+				onLoad={handleImageLoad}
+				onClick={handleImageClick}
+			/>
+			
+			<Dialog
+				open={modalOpen}
+				onClose={handleModalClose}
+				maxWidth={false}
+				fullWidth
+				PaperProps={{
+					style: {
+						backgroundColor: "transparent",
+						boxShadow: "none",
+					},
+				}}
+			>
+				<DialogContent className={classes.modalContent}>
+					<IconButton
+						className={classes.closeButton}
+						onClick={handleModalClose}
+						size="small"
+					>
+						<Close />
+					</IconButton>
+					<img
+						className={classes.modalImage}
+						src={imageUrl}
+						alt="image"
+						onError={handleImageError}
+					/>
+				</DialogContent>
+			</Dialog>
+		</>
+	);
 };
 
 export default ModalImageCors;

@@ -732,6 +732,12 @@ const MessagesList = ({ ticket, ticketId, isGroup, markAsRead, allowReplyButtons
       data?.message?.documentMessage
       || data?.message?.documentWithCaptionMessage?.message?.documentMessage;
     if (!document && message.mediaType === "image") {
+      console.log("Renderizando imagem:", {
+        mediaUrl: message.mediaUrl,
+        mediaType: message.mediaType,
+        isDeleted: message.isDeleted
+      });
+      
       return (
         <>
           { <ModalImageCors imageUrl={message.mediaUrl} isDeleted={message.isDeleted} /> }
