@@ -143,7 +143,15 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Mp3Recorder = new MicRecorder({ bitRate: 128 });
+// Inicializar MicRecorder apenas se a API de mídia estiver disponível
+let Mp3Recorder = null;
+if (typeof navigator !== 'undefined' && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+  try {
+    Mp3Recorder = new MicRecorder({ bitRate: 128 });
+  } catch (error) {
+    console.warn("Erro ao inicializar MicRecorder:", error);
+  }
+}
 
 export default function ChatMessages({
   chat,
@@ -275,6 +283,11 @@ export default function ChatMessages({
       // Verificar se a API de mídia está disponível
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         throw new Error("API de mídia não suportada neste navegador");
+      }
+      
+      // Verificar se Mp3Recorder foi inicializado
+      if (!Mp3Recorder) {
+        throw new Error("Gravador de áudio não disponível");
       }
       
       await navigator.mediaDevices.getUserMedia({ audio: true });
