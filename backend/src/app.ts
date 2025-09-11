@@ -48,18 +48,37 @@ app.use(Sentry.Handlers.requestHandler());
 app.get("/public/*", (req, res) => {
   const filePath = path.join(uploadConfig.directory, req.params[0]);
 
+  // Set appropriate headers for different file types
   if (filePath.endsWith(".aac")) {
     res.setHeader("Content-Type", "audio/aac");
+  } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
+    res.setHeader("Content-Type", "image/jpeg");
+  } else if (filePath.endsWith(".png")) {
+    res.setHeader("Content-Type", "image/png");
+  } else if (filePath.endsWith(".gif")) {
+    res.setHeader("Content-Type", "image/gif");
+  } else if (filePath.endsWith(".webp")) {
+    res.setHeader("Content-Type", "image/webp");
+  } else if (filePath.endsWith(".mp4")) {
+    res.setHeader("Content-Type", "video/mp4");
+  } else if (filePath.endsWith(".mp3")) {
+    res.setHeader("Content-Type", "audio/mpeg");
   }
 
-  res.download(filePath, (err: SystemError) => {
+  // Set CORS headers for media files
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Use sendFile instead of download for better image display
+  res.sendFile(filePath, (err: SystemError) => {
     if (err) {
       if (err.code === "ENOENT") {
         res.status(404).end();
       } else {
         logger.debug(
           { err },
-          `Error downloading file ${req.params[0]}: ${err.message}`
+          `Error serving file ${req.params[0]}: ${err.message}`
         );
         res.status(500).end();
       }
