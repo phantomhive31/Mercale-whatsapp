@@ -103,6 +103,26 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 		setModalOpen(false);
 	};
 
+	// Log para debug
+	console.log("ModalImageCors renderizando:", {
+		imageUrl,
+		isDeleted,
+		imageError,
+		modalOpen
+	});
+
+	// Verificar se a URL da imagem é válida
+	if (!imageUrl) {
+		console.error("URL da imagem não fornecida");
+		return (
+			<div className={clsx(classes.messageMedia, classes.imageError)}>
+				<div>
+					<p>URL da imagem não fornecida</p>
+				</div>
+			</div>
+		);
+	}
+
 	// Se houver erro ao carregar a imagem, mostrar fallback
 	if (imageError) {
 		return (
@@ -117,7 +137,7 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 		);
 	}
 
-	// Renderizar imagem diretamente
+	// Renderizar imagem diretamente - sem estados de loading
 	return (
 		<>
 			<img
@@ -129,6 +149,12 @@ const ModalImageCors = ({ imageUrl, isDeleted, data }) => {
 				alt="image"
 				onError={handleImageError}
 				onClick={handleImageClick}
+				style={{
+					display: 'block',
+					width: '100%',
+					height: '200px',
+					objectFit: 'cover'
+				}}
 			/>
 			
 			<Dialog

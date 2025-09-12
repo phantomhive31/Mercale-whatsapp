@@ -32,6 +32,7 @@ import {
 
 import WhatsMarked from "react-whatsmarked";
 import ModalImageCors from "../ModalImageCors";
+import SimpleImageModal from "../SimpleImageModal";
 import MessageOptionsMenu from "../MessageOptionsMenu";
 import whatsBackground from "../../assets/wa-background.png";
 import whatsBackgroundDark from "../../assets/wa-background-dark.png";
@@ -735,27 +736,28 @@ const MessagesList = ({ ticket, ticketId, isGroup, markAsRead, allowReplyButtons
       console.log("Renderizando imagem:", {
         mediaUrl: message.mediaUrl,
         mediaType: message.mediaType,
-        isDeleted: message.isDeleted
+        isDeleted: message.isDeleted,
+        messageId: message.id
       });
       
       return (
-        <>
-          { <ModalImageCors imageUrl={message.mediaUrl} isDeleted={message.isDeleted} /> }
-          <>
-            <div className={[clsx({
+        <div>
+          <SimpleImageModal 
+            imageUrl={message.mediaUrl} 
+            isDeleted={message.isDeleted} 
+            data={data}
+          />
+          {message.body && (
+            <div className={clsx({
               [classes.textContentItemDeleted]: message.isDeleted,
               [classes.textContentItem]: !message.isDeleted,
-            }),]}>
-              {message.body &&
-                <>
-                  <WhatsMarked>
-                    {message.body}
-                  </WhatsMarked>
-                </>
-              }
+            })}>
+              <WhatsMarked>
+                {message.body}
+              </WhatsMarked>
             </div>
-          </>
-        </>
+          )}
+        </div>
       )
     }
     if (!document && message.mediaType === "audio") {
